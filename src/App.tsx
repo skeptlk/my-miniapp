@@ -1,9 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-import { popup, initData } from '@telegram-apps/sdk'
+import { popup } from '@telegram-apps/sdk'
 
 function App() {
-  const user = initData.user();
+  // const user = initData.user();
 
   return (
     <div className="App">
@@ -13,8 +13,8 @@ function App() {
 
         <button onClick={async () => {
           popup.open({
-            title: `Hello, ${user?.firstName} ${user?.lastName}`,
-            message: `Here is a test message for ${user?.firstName} ${user?.lastName}`,
+            title: `Hello`,
+            message: `Here is a test message`,
             buttons: [{ id: 'my-id', type: 'default', text: 'Default text' }],
           });
         }}>Click me!</button>
