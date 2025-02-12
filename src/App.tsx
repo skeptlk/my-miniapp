@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
-import { popup } from '@telegram-apps/sdk'
+import { Box, createTheme, Modal, ThemeProvider } from '@mui/material';
+import style from './App.module.scss';
+import AppHeader from './components/AppHeader';
+import { DateRangeCalendar } from '@mui/x-date-pickers-pro/DateRangeCalendar';
+import { useState } from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { AdapterLuxon } from '@mui/x-date-pickers-pro/AdapterLuxon';
+
 
 function App() {
-  // const user = initData.user();
+  const [visible, setVisible] = useState(false);
+
+  const theme = createTheme({});
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Welcome to my Telegram app!</h1>
-        <img src={logo} className="App-logo" alt="logo" />
 
-        <button onClick={async () => {
-          popup.open({
-            title: `Hello`,
-            message: `Here is a test message`,
-            buttons: [{ id: 'my-id', type: 'default', text: 'Default text' }],
-          });
-        }}>Click me!</button>
-      </header>
-    </div>
+    <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="ru">
+
+      <ThemeProvider theme={theme}>
+
+        <div className={style.App}>
+          <header>
+            <AppHeader />
+          </header>
+          <h3 onClick={() => setVisible(true)}>Open calendar</h3>
+
+          <Modal
+            open={visible}
+            onClose={() => setVisible(false)}
+          >
+            <Box className={style.modal}>
+              <DateRangeCalendar calendars={1} />
+            </Box>
+          </Modal>
+
+        </div>
+      </ThemeProvider>
+    </LocalizationProvider>
+
   );
 }
 
