@@ -5,12 +5,19 @@ import { DateRangeCalendar } from '@mui/x-date-pickers-pro/DateRangeCalendar';
 import { useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { AdapterLuxon } from '@mui/x-date-pickers-pro/AdapterLuxon';
+import { formatDate } from './utils/date';
+import Picker from 'rmc-picker';
 
 
 function App() {
   const [visible, setVisible] = useState(false);
+  const [setupVisible, setSetupVisible] = useState(false);
+
+  const [age, setAge] = useState(20);
 
   const theme = createTheme({});
+
+  const [period, setPeriod] = useState<[Date, Date]>([new Date(), new Date()]);
 
   return (
 
@@ -22,14 +29,45 @@ function App() {
           <header>
             <AppHeader />
           </header>
-          <h3 onClick={() => setVisible(true)}>Open calendar</h3>
+
+          {
+            period[0] &&
+            <span>
+              Предыдущие месячные:
+              {formatDate(period[0])} - {formatDate(period[1])}
+            </span>
+          }
+
+          <h3 onClick={() => setVisible(true)}>Установить месячные</h3>
+
+          {
+            age &&
+            <span>Выбран возраст: {age} лет</span>
+          }
+
+          <h3 onClick={() => setSetupVisible(true)}>Установить возраст</h3>
 
           <Modal
             open={visible}
             onClose={() => setVisible(false)}
           >
             <Box className={style.modal}>
-              <DateRangeCalendar calendars={1} />
+              <DateRangeCalendar onChange={(value) => setPeriod(value)} calendars={1} />
+            </Box>
+          </Modal>
+
+          <Modal
+            open={setupVisible}
+            onClose={() => setSetupVisible(false)}
+          >
+            <Box className={style.modal}>
+              <Picker indicatorClassName="my-picker-indicator" selectedValue={age} onValueChange={setAge}>
+                {
+                  [...Array(50).keys()].map(i => (
+                    <Picker.Item className="my-picker-view-item" value={i}>{i}</Picker.Item>
+                  ))
+                }
+              </Picker>
             </Box>
           </Modal>
 

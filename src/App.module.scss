@@ -9,10 +9,12 @@
   --brand: #8B008B;
   --brand-bg: #DDA0DD;
   --accent: #8A2BE2;
+  --app-bg: white;
 }
 
 .modal {
-  background: var(--tg-theme-bg-color);
+  background: white;
+  border-radius: 6px;
   position: absolute;
   top: 50%;
   left: 50%;
